@@ -4,14 +4,14 @@ import org.http4s.HttpService
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 
-class HelloWorldService[F[_]: Effect] extends Http4sDsl[F] {
+class WakaService[F[_]: Effect] extends Http4sDsl[F] {
 
   val service: HttpService[F] = {
     HttpService[F] {
+      case GET -> Root / "daily-summary" =>
+        Ok(Json.obj("message" -> Json.fromString(s"Accessing waka-time data")))
       case GET -> Root / "hello" / name =>
         Ok(Json.obj("message" -> Json.fromString(s"Hello, ${name}")))
-      case GET -> Root / "bye" / message =>
-        Ok(Json.obj("message" -> Json.fromString(s"Goodbye, $message")))
     }
   }
 }

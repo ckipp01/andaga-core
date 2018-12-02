@@ -4,7 +4,7 @@ import org.http4s.server.blaze.BlazeBuilder
 
 import scala.concurrent.ExecutionContext
 
-object HelloWorldServer extends StreamApp[IO] {
+object AndagaCore extends StreamApp[IO] {
   import scala.concurrent.ExecutionContext.Implicits.global
 
   def stream(args: List[String], requestShutdown: IO[Unit]) = ServerStream.stream[IO]
@@ -12,11 +12,13 @@ object HelloWorldServer extends StreamApp[IO] {
 
 object ServerStream {
 
-  def helloWorldService[F[_]: Effect] = new HelloWorldService[F].service
+  def wakaService[F[_]: Effect] = new WakaService[F].service
+  def testService[F[_]: Effect] = new TestService[F].service
 
   def stream[F[_]: Effect](implicit ec: ExecutionContext) =
     BlazeBuilder[F]
       .bindHttp(8080, "0.0.0.0")
-      .mountService(helloWorldService, "/")
+      .mountService(wakaService, "/waka/")
+      .mountService(wakaService, "/test/")
       .serve
 }

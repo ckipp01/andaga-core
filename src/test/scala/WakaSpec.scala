@@ -3,7 +3,7 @@ import org.http4s._
 import org.http4s.implicits._
 import org.specs2.matcher.MatchResult
 
-class HelloWorldSpec extends org.specs2.mutable.Specification {
+class WakaSpec extends org.specs2.mutable.Specification {
 
   "HelloWorld" >> {
     "return 200" >> {
@@ -16,7 +16,7 @@ class HelloWorldSpec extends org.specs2.mutable.Specification {
 
   private[this] val retHelloWorld: Response[IO] = {
     val getHW = Request[IO](Method.GET, Uri.uri("/hello/world"))
-    new HelloWorldService[IO].service.orNotFound(getHW).unsafeRunSync()
+    new WakaService[IO].service.orNotFound(getHW).unsafeRunSync()
   }
 
   private[this] def uriReturns200(): MatchResult[Status] =
