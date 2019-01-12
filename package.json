@@ -1,0 +1,14 @@
+{
+  "name": "andaga-core",
+  "description": "Core engine and api for the ándaga time tracking system",
+  "scripts": {
+    "start": "micro",
+    "dev": "micro-dev"
+  },
+  "dependencies": {
+    "micro": "^9.3.3"
+  },
+  "devDependencies": {
+    "micro-dev": "^3.0.0"
+  }
+}
