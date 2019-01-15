@@ -1,6 +1,7 @@
 {
   "name": "andaga-core",
   "description": "Core engine and api for the ándaga time tracking system",
+  "main": "api/log/index.js",
   "scripts": {
     "start": "micro",
     "dev": "micro-dev"
