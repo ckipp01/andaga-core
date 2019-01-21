@@ -1,13 +1,23 @@
-const {json} = require('micro')
+'use strict'
+
 const db = require('../../lib/db.js')
 
-module.exports = async (req, res) => {
-  try {
-  const log = await json(req)
-  const result = await db.storeLog(log)
-  return result 
-  } catch (err) {
-    console.log(err)
-    return 'something went wrong'
+module.exports = (req, res) => {
+  if (req.headers.authorization !== process.env.ANDAGA_AUTH) {
+    res.end('Authentication required')
+  } else {
+    let body = ''
+    req.on('data', chunk => {
+      body += chunk.toString()
+    })
+    req.on('end', () => {
+      try {
+        db.storeLog(JSON.parse(body))
+          .then(result => res.end('Stored log successfully'))
+      } catch (err) {
+        console.log(err)
+        res.end('An error occured when saving your log')
+      }
+    })
   }
 }
