@@ -20,8 +20,6 @@ module.exports = (req, res) => {
             res.writeHead(200, { 'Content-Type': 'text/plain' })
             res.end('Stored log successfully')
           })
-        res.writeHead(200, { 'Content-Type': 'text/plain' })
-        res.end('Stored log successfully')
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'text/plain' })
         res.end(err.message)
