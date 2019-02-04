@@ -1,9 +1,11 @@
 'use strict'
 
 const db = require('../../lib/db.js')
+const { Log } = require('../../lib/models/models.js')
 
 module.exports = (req, res) => {
   if (req.headers.authorization !== process.env.ANDAGA_AUTH) {
+    res.writeHead(401, { 'Content-Type': 'text/plain' })
     res.end('Authentication required')
   } else {
     let body = ''
@@ -12,11 +14,17 @@ module.exports = (req, res) => {
     })
     req.on('end', () => {
       try {
-        db.storeLog(JSON.parse(body))
-          .then(result => res.end('Stored log successfully'))
+        const log = new Log(JSON.parse(body))
+        db.storeLog(log)
+          .then(result => {
+            res.writeHead(200, { 'Content-Type': 'text/plain' })
+            res.end('Stored log successfully')
+          })
+        res.writeHead(200, { 'Content-Type': 'text/plain' })
+        res.end('Stored log successfully')
       } catch (err) {
-        console.log(err)
-        res.end('An error occured when saving your log')
+        res.writeHead(400, { 'Content-Type': 'text/plain' })
+        res.end(err.message)
       }
     })
   }
