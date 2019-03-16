@@ -19,10 +19,12 @@ module.exports = (req, res) => {
           const log = new Log(JSON.parse(body))
           db.storeLog(log)
             .then(result => {
+              console.info('Stored log successfully')
               res.writeHead(200, { 'Content-Type': 'text/plain' })
               res.end('Stored log successfully')
             })
         } catch (err) {
+          console.err(err.message)
           res.writeHead(400, { 'Content-Type': 'text/plain' })
           res.end(err.message)
         }
@@ -34,14 +36,17 @@ module.exports = (req, res) => {
         : 1
       db.retrieveLogs(amount)
         .then(result => {
+          console.info('Successfully recalled log')
           res.writeHead(200, { 'Content-Type': 'application/json' })
           res.end(JSON.stringify(result))
         })
         .catch(err => {
+          console.err(err.message)
           res.writeHead(400, { 'Content-Type': 'text/plain' })
           res.end(err.message)
         })
     } else {
+      console.err('Request blocked')
       res.writeHead(405, { 'Content-Type': 'text/plain' })
       res.end(req.method + ' is not allowed')
     }
