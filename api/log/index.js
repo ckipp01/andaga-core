@@ -1,7 +1,7 @@
 'use strict'
 
 const url = require('url')
-const db = require('../../lib/db.js')
+const { storeLog, retrieveLogs } = require('../../lib/db.js')
 const { Log } = require('../../lib/models/models.js')
 
 module.exports = (req, res) => {
@@ -10,14 +10,14 @@ module.exports = (req, res) => {
     res.end('Authentication required')
   } else {
     if (req.method === 'POST') {
-      let body = ''
+      const body = []
       req.on('data', chunk => {
-        body += chunk.toString()
+        body.push(chunk)
       })
       req.on('end', () => {
         try {
           const log = new Log(JSON.parse(body))
-          db.storeLog(log)
+          storeLog(log)
             .then(result => {
               console.info('Stored log successfully')
               res.writeHead(200, { 'Content-Type': 'text/plain' })
@@ -34,7 +34,7 @@ module.exports = (req, res) => {
       const amount = params.query.amount
         ? params.query.amount
         : 1
-      db.retrieveLogs(amount)
+      retrieveLogs(amount)
         .then(result => {
           console.info('Successfully recalled log')
           res.writeHead(200, { 'Content-Type': 'application/json' })
