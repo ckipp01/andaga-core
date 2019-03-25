@@ -8,11 +8,11 @@ module.exports = (req, res) => {
     res.end('Authentication required')
   } else {
     try {
-      db.getProjects()
-        .then(projects => {
-          console.info('Successfully retrieved projects')
+      db.getTags()
+        .then(tags => {
+          console.info('Successfully retrieved tags')
           res.writeHead(200, { 'Content-Type': 'application/json' })
-          res.end(JSON.stringify(projects))
+          res.end(JSON.stringify(tags))
         })
     } catch (err) {
       console.err(err.message)

@@ -9,10 +9,10 @@ module.exports = (req, res) => {
   } else {
     try {
       db.getCategories()
-        .then(result => {
+        .then(categories => {
           console.info('Successfully retrieved categories')
           res.writeHead(200, { 'Content-Type': 'application/json' })
-          res.end(JSON.stringify(result))
+          res.end(JSON.stringify(categories))
         })
     } catch (err) {
       console.err(err.message)

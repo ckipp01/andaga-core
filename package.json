@@ -1,6 +1,6 @@
 {
   "name": "andaga-core",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Core engine and api for the ándaga time tracking system",
   "scripts": {
     "start": "micro",
