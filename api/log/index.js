@@ -11,24 +11,22 @@ module.exports = (req, res) => {
   } else {
     if (req.method === 'POST') {
       const body = []
-      req.on('data', chunk => {
-        body.push(chunk)
-      })
+      req.on('data', chunk => { body.push(chunk) })
       req.on('end', () => {
-        try {
-          const log = new Log(JSON.parse(body))
-          storeLog(log)
-            .then(result => {
-              console.info('Stored log successfully')
-              res.writeHead(200, { 'Content-Type': 'text/plain' })
-              res.end('Stored log successfully')
-            })
-        } catch (err) {
-          console.err(err.message)
-          res.writeHead(400, { 'Content-Type': 'text/plain' })
-          res.end(err.message)
-        }
+        const log = new Log(JSON.parse(body))
+        storeLog(log)
+          .then(result => {
+            res.writeHead(200, { 'Content-Type': 'text/plain' })
+            res.end('Stored log successfully')
+            console.info('Stored log successfully')
+          })
+          .catch(err => {
+            res.writeHead(400, { 'Content-Type': 'text/plain' })
+            res.end(err.message)
+            console.error(err.message)
+          })
       })
+      res.end('end')
     } else if (req.method === 'GET') {
       const params = url.parse(req.url, true)
       const amount = params.query.amount
@@ -41,12 +39,12 @@ module.exports = (req, res) => {
           res.end(JSON.stringify(result))
         })
         .catch(err => {
-          console.err(err.message)
+          console.error(err.message)
           res.writeHead(400, { 'Content-Type': 'text/plain' })
           res.end(err.message)
         })
     } else {
-      console.err('Request blocked')
+      console.error('Request blocked')
       res.writeHead(405, { 'Content-Type': 'text/plain' })
       res.end(req.method + ' is not allowed')
     }
