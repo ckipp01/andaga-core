@@ -26,7 +26,6 @@ module.exports = (req, res) => {
             console.error(err.message)
           })
       })
-      res.end('end')
     } else if (req.method === 'GET') {
       const params = url.parse(req.url, true)
       const amount = params.query.amount

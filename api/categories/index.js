@@ -15,7 +15,7 @@ module.exports = (req, res) => {
           res.end(JSON.stringify(categories))
         })
     } catch (err) {
-      console.err(err.message)
+      console.error(err.message)
       res.writeHead(400, { 'Content-Type': 'text/plain' })
       res.end(err.message)
     }
