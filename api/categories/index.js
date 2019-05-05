@@ -1,6 +1,6 @@
 'use strict'
 
-const db = require('../../lib/db.js')
+const { getCategories } = require('../../lib/db.js')
 
 module.exports = (req, res) => {
   if (req.headers.authorization !== process.env.ANDAGA_AUTH) {
@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     res.end('Authentication required')
   } else {
     try {
-      db.getCategories()
+      getCategories()
         .then(categories => {
           console.info('Successfully retrieved categories')
           res.writeHead(200, { 'Content-Type': 'application/json' })

@@ -15,7 +15,7 @@ module.exports = (req, res) => {
       req.on('end', () => {
         const log = new Log(JSON.parse(body))
         storeLog(log)
-          .then(result => {
+          .then(_ => {
             res.writeHead(200, { 'Content-Type': 'text/plain' })
             res.end('Stored log successfully')
             console.info('Stored log successfully')
