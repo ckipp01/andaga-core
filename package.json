@@ -6,6 +6,6 @@
     "mongodb": "3.3.0"
   },
   "devDependencies": {
-    "standard": "13.0.1"
+    "eslint": "^6.2.2"
   }
 }
