@@ -5,3 +5,4 @@ now.json
 .nowignore
 *.log
 .env
+.now
